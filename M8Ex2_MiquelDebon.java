@@ -276,7 +276,7 @@ public class M8Ex2_MiquelDebon {
         System.out.println();
     }
 
-    //Other Methods   ______________________________________________
+    //Other Methods   _____________________________________________________________________
 
 
     public static String stringHotelNamesList(){
@@ -289,25 +289,9 @@ public class M8Ex2_MiquelDebon {
         return output;
     }
 
-    //Metodo d'impresió llistat hotels que s'utlitza en multiples metodes
-//    static String stringHotelList(){
-//        int cantidadHoteles = listaHoteles.size();
-//        Hotel hotel;
-//        String output = "";
-//
-//        output = String.format("🗓️Lista de hoteles. Cantidad de hoteles: %d \n", cantidadHoteles);
-//
-//        for(int i = 0; i < listaHoteles.size(); i++){
-//            hotel = listaHoteles.get(i);
-//            output += hotel.toString();
-//            if(i != listaHoteles.size()-1){
-//                output += "\n";
-//            }
-//        }
-//        return output;
-//    }
 
     public static boolean existThisHotel(String nameHotel){
+        //No pot ser while xqe si no existeix es quedaria en loop infinit
         Hotel hotel;
         boolean output = false;
         for(int i = 0; i < listaHoteles.size(); i++ ){
@@ -315,31 +299,23 @@ public class M8Ex2_MiquelDebon {
             if(hotel.getName().equalsIgnoreCase(nameHotel)){
                 output = true;
                 i = listaHoteles.size()-1;
-
             }
         }
         return output;
-
-        //Se ha de utilizar la logica, no se puede utlizar esto!!
-        //El for each solo se ha de utlizar para ir de inicio a fin!
-//        for(Hotel hotel : listaHoteles){
-//            if(hotel.getName().equalsIgnoreCase(nameHotel)){
-//                return true;
-//            }
-//        }
     }
 
     public static Hotel findHotel(String nameHotel){
+        //Es un metodo que sempre s'inicialitza després del exisThisHotel()
+        //Ha de ser while xqe no sabem quan el trobara
         Hotel hotel= new Hotel();
         boolean hotelFound = false;
 
         int i = 0;
-        do{
+        while(!hotelFound){
             hotel = listaHoteles.get(i);
             i++;
             hotelFound = (hotel.getName().equalsIgnoreCase(nameHotel)) ? true : false;
-        }while(!hotelFound);
-
+        }
         return hotel;
     }
 
