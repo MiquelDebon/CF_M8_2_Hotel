@@ -81,9 +81,9 @@ public class Hotel {
         cost = people * 1500;
 
         return String.format(  "✅🧹Mantenimiento: "+
-                        "\n     The hotel '%s' has %.2f m2." +
+                        "\n     The hotel '%s' has %.2f m2, %d rooms" +
                         "\n     We need %d people with a cost of %d €."
-                , this.getName(), this.getTotalSurface(), people, cost);
+                , this.getName(), this.getTotalSurface(), this.getAmountRooms(), people, cost);
 
     }
 }

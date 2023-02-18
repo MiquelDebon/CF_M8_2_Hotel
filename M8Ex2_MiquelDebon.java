@@ -8,6 +8,8 @@ public class M8Ex2_MiquelDebon {
     static final String stringAlertaNoHotel =  "❌ No hay hoteles!";
     static final String stringAlertNoFoundHotel =  "❌ Not found hotel!";
     static final String stringNoHotelWithThisName = "❌We don't have any Hotel with this name";
+    static final String stringAnErrorOccur = "❌ An error has occur!!";
+    static final String stringWriteAValidValue = "❌ Write a valid value!!";
 
     public static void main(String[] args) {
         //Attributes
@@ -149,13 +151,13 @@ public class M8Ex2_MiquelDebon {
             hotel = findHotel(hotelQueried);
             indexHotel = listaHoteles.indexOf(hotel);
             listaHoteles.remove(indexHotel);
+
             if(cantidadOriginalHoteles-1 == listaHoteles.size()){
                 System.out.printf("✅S'ha borrat correctament. 🏨Cantidad de hoteles: %d\n" , listaHoteles.size());
 
             }else{
-                System.out.println("❌ An error has occur!!");
+                System.out.println(stringAnErrorOccur);
             }
-
         }else{
             System.out.println(stringAlertaNoHotel);
         }
@@ -164,20 +166,15 @@ public class M8Ex2_MiquelDebon {
 
     //Metodo 4 - Imprimir lista de Hoteles
     static void imprimirHoteles(){
-        //Variables
-        int cantidadHoteles = listaHoteles.size();
-
         System.out.println("☑️Opcion 4: Imprimir lista de Hoteles");
-        if(cantidadHoteles==0){
-            System.out.println(stringAlertaNoHotel + "\n");
-        }else{
+
+        if(listaHoteles.size()!=0){
             System.out.println(stringHotelNamesList());
-            System.out.println("✅Lista de Hoteles imprimida. ");
-            System.out.println();
+            System.out.println("✅Lista de Hoteles imprimida. \n");
+        }else{
+            System.out.println(stringAlertaNoHotel + "\n");
         }
     }
-
-
 
 
     //Metodo 5 - Datos de 1 Hotel
@@ -188,16 +185,17 @@ public class M8Ex2_MiquelDebon {
         String hotelElegido = "";
 
         System.out.println("☑️Opcion 5 - Datos de un Hotel");
-        System.out.println("Ahora tenemos estos Hoteles: ");
-        System.out.println(stringHotelNamesList());
 
-        if(listaHoteles.size()>0){
+        if(listaHoteles.size() != 0){
+            System.out.println("Ahora tenemos estos Hoteles: ");
+            System.out.println(stringHotelNamesList());
+
             do{
                 System.out.print("✏️ Escribe el nombre del hotel: ");
                 hotelElegido = entrada.nextLine();
                 existeEleccion = existThisHotel(hotelElegido);
                 if(!existeEleccion){
-                    System.out.println("❌Error no tenim cap Hotel amb aquest nom");
+                    System.out.println(stringNoHotelWithThisName);
                 }
             }while(!existeEleccion);
 
@@ -209,7 +207,6 @@ public class M8Ex2_MiquelDebon {
         }else{
             System.out.println(stringAlertaNoHotel);
         }
-
         System.out.println();
     }
 
@@ -220,47 +217,61 @@ public class M8Ex2_MiquelDebon {
         int datoaModificar = 0;
         int indiceHotel = 0;
         boolean existeEleccion = false;
+        boolean correctDatoAModificar = false;
 
         System.out.println("☑️Opción 6 - Modificar Hotel");
-        if(listaHoteles.size() == 0) {
-            System.out.println(stringAlertaNoHotel);
-        }else{
+
+        if(listaHoteles.size() != 0) {
             System.out.println(stringHotelNamesList());
             do{
                 System.out.print("✏️Escribe el NOMBRE del hotel a modificar: ");
                 hotelQueried = entrada.nextLine();
                 existeEleccion = existThisHotel(hotelQueried);
                 if(!existeEleccion){
-                    System.out.println("❌Error no tenim cap Hotel amb aquest nom");
+                    System.out.println(stringNoHotelWithThisName);
                 }
             }while(!existeEleccion);
 
             hotel = findHotel(hotelQueried);
             indiceHotel = listaHoteles.indexOf(hotel);
 
-            System.out.printf("✅Que quieres modificar de '%s': \n", hotel.getName());
-            System.out.print("    1. Nombre \n    2. Nº d'habitacions     \n    3. NºPlantes \n    4. Superficie \n✏️Que opción quieres (1-4): ");
-            datoaModificar = entrada.nextInt();
+            do{
+                System.out.printf("✅Que quieres modificar de '%s': \n", hotel.getName());
+                System.out.print("    1. Nombre \n    2. Nº d'habitacions     \n    3. NºPlantes \n    4. Superficie \n✏️Que opción quieres (1-4): ");
+                datoaModificar = leerInt();
+                if(datoaModificar > 0 && datoaModificar < 5){
+                    correctDatoAModificar = true;
+                }else{
+                    System.out.println(stringWriteAValidValue);
+                }
+            }while(!correctDatoAModificar);
+
+
             switch (datoaModificar){
                 case 1:
+                    System.out.printf("🏨Actualmente el hotel se llama '%s'\n",  hotel.getName());
                     System.out.print("✏️Escribe el nuevo nombre: ");
-                    entrada.nextLine();
                     listaHoteles.get(indiceHotel).setName(entrada.nextLine());
                     break;
                 case 2:
-                    System.out.printf("✏️Escribe el nuevo numero de habitaciones, actualmente tiene %d: ",listaHoteles.get(indiceHotel).getAmountRooms() );
+                    System.out.printf("🏨Actualmente el hotel '%s' tiene nº%d  habitaciones\n",hotel.getName(), hotel.getAmountRooms() );
+                    System.out.print("✏️Escribe el nuevo numero de habitaciones: ");
                     listaHoteles.get(indiceHotel).setAmountRooms(entrada.nextInt());
                     break;
                 case 3:
+                    System.out.printf("🏨Actualmente el hotel '%s' tiene nº%d de plantas\n",hotel.getName(), hotel.getAmountFloors());
                     System.out.print("✏️Escribe el nuevo numero de plantas: ");
                     listaHoteles.get(indiceHotel).setAmountFloors(entrada.nextInt());
                     break;
                 case 4:
+                    System.out.printf("🏨Actualmente el hotel '%s' tiene %.2f metros cuadrados\n",hotel.getName(), hotel.getTotalSurface());
                     System.out.print("✏️Escribe la nueva superficie: ");
                     listaHoteles.get(indiceHotel).setTotalSurface(entrada.nextInt());
                     break;
             }
             System.out.println("✅ Hotel modificado correctamente");
+        }else{
+            System.out.println(stringAlertaNoHotel);
         }
         System.out.println();
     }
@@ -341,7 +352,7 @@ public class M8Ex2_MiquelDebon {
                 numero = entrada.nextInt();
                 correcto = true;
             } catch (InputMismatchException ex) {
-                System.out.println("❌ Select a valid option");
+                System.out.print(stringWriteAValidValue);
             }
             entrada.nextLine();
         } while (!correcto);
