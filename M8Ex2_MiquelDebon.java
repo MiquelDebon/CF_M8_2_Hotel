@@ -7,6 +7,8 @@ public class M8Ex2_MiquelDebon {
     static ArrayList<Hotel> listaHoteles = new ArrayList<Hotel>();
     static final String stringAlertaNoHotel =  "❌ No hay hoteles!";
     static final String stringAlertNoFoundHotel =  "❌ Not found hotel!";
+    static final String stringNoHotelWithThisName = "❌We don't have any Hotel with this name";
+
     public static void main(String[] args) {
         //Attributes
         int opcionElegida = 0;
@@ -128,30 +130,34 @@ public class M8Ex2_MiquelDebon {
     static void borrarHotel(){
         Hotel hotel;
         String hotelQueried = "";
+        boolean existHotel = false;
         int indexHotel = 0;
         int cantidadOriginalHoteles = listaHoteles.size();
 
         System.out.println("☑️Opción 3: Borrar Hotel");
-        System.out.println(stringHotelNamesList());
-        if(listaHoteles.size() == 0){
-            System.out.println("⚠️ No hi ha hotels a borrar");
-        }else{
-            System.out.print("Quin hotel vols borrar, introdueix el seu nom:👉 ");
-            hotelQueried = entrada.nextLine();
-
-            if(existThisHotel(hotelQueried)){
-                hotel = findHotel(hotelQueried);
-                indexHotel = listaHoteles.indexOf(hotel);
-                listaHoteles.remove(indexHotel);
-                if(cantidadOriginalHoteles-1 == listaHoteles.size()){
-                    System.out.printf("✅S'ha borrat correctament. 🏨Cantidad de hoteles: %d\n" , listaHoteles.size());
-
-                }else{
-                    System.out.println("❌ An error has occur!!");
+        if(listaHoteles.size() != 0){
+            System.out.println(stringHotelNamesList());
+            do {
+                System.out.print("Quin hotel vols borrar, introdueix el seu nom:👉 ");
+                hotelQueried = entrada.nextLine();
+                existHotel = existThisHotel(hotelQueried);
+                if(!existHotel){
+                    System.out.println(stringNoHotelWithThisName);
                 }
+            }while(!existHotel);
+
+            hotel = findHotel(hotelQueried);
+            indexHotel = listaHoteles.indexOf(hotel);
+            listaHoteles.remove(indexHotel);
+            if(cantidadOriginalHoteles-1 == listaHoteles.size()){
+                System.out.printf("✅S'ha borrat correctament. 🏨Cantidad de hoteles: %d\n" , listaHoteles.size());
+
             }else{
-                System.out.println("❌ No hay ningún hotel con este nombre");
+                System.out.println("❌ An error has occur!!");
             }
+
+        }else{
+            System.out.println(stringAlertaNoHotel);
         }
         System.out.println();
     }
