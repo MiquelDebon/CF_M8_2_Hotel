@@ -293,15 +293,17 @@ public class M8Ex2_MiquelDebon {
     public static boolean existThisHotel(String nameHotel){
         //No pot ser while xqe si no existeix es quedaria en loop infinit
         Hotel hotel;
-        boolean output = false;
-        for(int i = 0; i < listaHoteles.size(); i++ ){
+        boolean hotelExist = false;
+        int i = 0;
+
+        while(i < listaHoteles.size() && !hotelExist){
             hotel = listaHoteles.get(i);
             if(hotel.getName().equalsIgnoreCase(nameHotel)){
-                output = true;
-                i = listaHoteles.size()-1;
+                hotelExist = true;
             }
+            i++;
         }
-        return output;
+        return hotelExist;
     }
 
     public static Hotel findHotel(String nameHotel){
