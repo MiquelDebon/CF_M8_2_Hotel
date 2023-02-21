@@ -218,7 +218,7 @@ public class M8Ex2_MiquelDebon {
         System.out.println();
     }
 
-    //Metodo 6 - Modificar Hotel
+    //Method 6 - Modificar Hotel
     static void modificarHotel(){
         Hotel hotel = new Hotel();
         String hotelQueried = "";
