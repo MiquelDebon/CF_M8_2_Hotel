@@ -5,11 +5,10 @@ import java.util.Scanner;
 public class M8Ex2_MiquelDebon {
     static Scanner entrada = new Scanner(System.in);
     static ArrayList<Hotel> listaHoteles = new ArrayList<Hotel>();
-    static final String stringAlertaNoHotel =  "❌ No hay hoteles!";
-    static final String stringAlertNoFoundHotel =  "❌ Not found hotel!";
-    static final String stringNoHotelWithThisName = "❌We don't have any Hotel with this name";
-    static final String stringAnErrorOccur = "❌ An error has occur!!";
-    static final String stringWriteAValidValue = "❌ Write a valid value!!";
+    static final String STRING_ALERTA_NO_HOTEL =  "❌ No hay hoteles!";
+    static final String STRING_NO_HOTEL_WITH_THIS_NAME = "❌We don't have any Hotel with this name";
+    static final String STRING_AN_ERROR_OCCUR = "❌ An error has occur!!";
+    static final String STRING_WRITE_A_VALID_VALUE = "❌ Write a valid value!!";
 
     public static void main(String[] args) {
         //Attributes
@@ -127,7 +126,7 @@ public class M8Ex2_MiquelDebon {
             System.out.println(outputMantenimiento);
 
         }else{
-            System.out.println(stringAlertaNoHotel);
+            System.out.println(STRING_ALERTA_NO_HOTEL);
         }
         System.out.println();
     }
@@ -150,7 +149,7 @@ public class M8Ex2_MiquelDebon {
                 indexHotel = findIndexHotel(hotelQueried);
                 existHotel = (indexHotel != -1) ? true : false;
                 if(!existHotel){
-                    System.out.println(stringNoHotelWithThisName);
+                    System.out.println(STRING_NO_HOTEL_WITH_THIS_NAME);
                 }
             }while(!existHotel);
 
@@ -160,10 +159,10 @@ public class M8Ex2_MiquelDebon {
                 System.out.printf("✅S'ha borrat correctament. 🏨Cantidad de hoteles: %d\n" , listaHoteles.size());
 
             }else{
-                System.out.println(stringAnErrorOccur);
+                System.out.println(STRING_AN_ERROR_OCCUR);
             }
         }else{
-            System.out.println(stringAlertaNoHotel);
+            System.out.println(STRING_ALERTA_NO_HOTEL);
         }
         System.out.println();
     }
@@ -176,7 +175,7 @@ public class M8Ex2_MiquelDebon {
             System.out.println(stringHotelNamesList());
             System.out.println("✅Lista de Hoteles imprimida. \n");
         }else{
-            System.out.println(stringAlertaNoHotel + "\n");
+            System.out.println(STRING_ALERTA_NO_HOTEL + "\n");
         }
     }
 
@@ -202,7 +201,7 @@ public class M8Ex2_MiquelDebon {
                 index = findIndexHotel(queriedNameHotel);
                 hotelExist = (index != -1) ? true : false;
                 if(!hotelExist){
-                    System.out.println(stringNoHotelWithThisName);
+                    System.out.println(STRING_NO_HOTEL_WITH_THIS_NAME);
                 }
             }while(!hotelExist);
 
@@ -213,7 +212,7 @@ public class M8Ex2_MiquelDebon {
             System.out.println(hotel.calcularManteniment());
 
         }else{
-            System.out.println(stringAlertaNoHotel);
+            System.out.println(STRING_ALERTA_NO_HOTEL);
         }
         System.out.println();
     }
@@ -238,7 +237,7 @@ public class M8Ex2_MiquelDebon {
                 indiceHotel = findIndexHotel(hotelQueried);
                 existeEleccion = (indiceHotel != -1) ? true : false;
                 if(!existeEleccion){
-                    System.out.println(stringNoHotelWithThisName);
+                    System.out.println(STRING_NO_HOTEL_WITH_THIS_NAME);
                 }
             }while(!existeEleccion);
 
@@ -251,7 +250,7 @@ public class M8Ex2_MiquelDebon {
                 if(datoaModificar > 0 && datoaModificar < 5){
                     correctDatoAModificar = true;
                 }else{
-                    System.out.println(stringWriteAValidValue);
+                    System.out.println(STRING_WRITE_A_VALID_VALUE);
                 }
             }while(!correctDatoAModificar);
 
@@ -280,7 +279,7 @@ public class M8Ex2_MiquelDebon {
             }
             System.out.println("✅ Hotel modificado correctamente");
         }else{
-            System.out.println(stringAlertaNoHotel);
+            System.out.println(STRING_ALERTA_NO_HOTEL);
         }
         System.out.println();
     }
@@ -325,7 +324,7 @@ public class M8Ex2_MiquelDebon {
                 numero = entrada.nextInt();
                 correcto = true;
             } catch (InputMismatchException ex) {
-                System.out.print(stringWriteAValidValue);
+                System.out.print(STRING_WRITE_A_VALID_VALUE);
             }
             entrada.nextLine();
         } while (!correcto);
