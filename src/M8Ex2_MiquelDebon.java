@@ -147,14 +147,13 @@ public class M8Ex2_MiquelDebon {
             do {
                 System.out.print("Quin hotel vols borrar, introdueix el seu nom:👉 ");
                 hotelQueried = entrada.nextLine();
-                existHotel = existThisHotel(hotelQueried);
+                indexHotel = findIndexHotel(hotelQueried);
+                existHotel = (indexHotel != -1) ? true : false;
                 if(!existHotel){
                     System.out.println(stringNoHotelWithThisName);
                 }
             }while(!existHotel);
 
-            hotel = findHotel(hotelQueried);
-            indexHotel = listaHoteles.indexOf(hotel);
             listaHoteles.remove(indexHotel);
 
             if(cantidadOriginalHoteles-1 == listaHoteles.size()){
@@ -173,7 +172,7 @@ public class M8Ex2_MiquelDebon {
     static void imprimirHoteles(){
         System.out.println("☑️Opcion 4: Imprimir lista de Hoteles");
 
-        if(listaHoteles.size()!=0){
+        if(listaHoteles.size() != 0){
             System.out.println(stringHotelNamesList());
             System.out.println("✅Lista de Hoteles imprimida. \n");
         }else{
@@ -186,8 +185,9 @@ public class M8Ex2_MiquelDebon {
     static void dimeInfoHotel(){
         //Atributos
         Hotel hotel;
-        boolean existeEleccion = false;
-        String hotelElegido = "";
+        boolean hotelExist = false;
+        int index = -1;
+        String queriedNameHotel = "";
 
         System.out.println("☑️Opcion 5 - Datos de un Hotel");
 
@@ -197,14 +197,17 @@ public class M8Ex2_MiquelDebon {
 
             do{
                 System.out.print("✏️ Escribe el nombre del hotel: ");
-                hotelElegido = entrada.nextLine();
-                existeEleccion = existThisHotel(hotelElegido);
-                if(!existeEleccion){
+                queriedNameHotel = entrada.nextLine();
+
+                index = findIndexHotel(queriedNameHotel);
+                hotelExist = (index != -1) ? true : false;
+                if(!hotelExist){
                     System.out.println(stringNoHotelWithThisName);
                 }
-            }while(!existeEleccion);
+            }while(!hotelExist);
 
-            hotel = findHotel(hotelElegido);
+            hotel = listaHoteles.get(index);
+
             System.out.println("✅Hay un hotel con este nombre");
             System.out.println(hotel.toStringMultiLinea());
             System.out.println(hotel.calcularManteniment());
@@ -231,14 +234,15 @@ public class M8Ex2_MiquelDebon {
             do{
                 System.out.print("✏️Escribe el NOMBRE del hotel a modificar: ");
                 hotelQueried = entrada.nextLine();
-                existeEleccion = existThisHotel(hotelQueried);
+
+                indiceHotel = findIndexHotel(hotelQueried);
+                existeEleccion = (indiceHotel != -1) ? true : false;
                 if(!existeEleccion){
                     System.out.println(stringNoHotelWithThisName);
                 }
             }while(!existeEleccion);
 
-            hotel = findHotel(hotelQueried);
-            indiceHotel = listaHoteles.indexOf(hotel);
+            hotel = listaHoteles.get(indiceHotel);
 
             do{
                 System.out.printf("✅Que quieres modificar de '%s': \n", hotel.getName());
@@ -256,22 +260,22 @@ public class M8Ex2_MiquelDebon {
                 case 1:
                     System.out.printf("🏨Actualmente el hotel se llama '%s'\n",  hotel.getName());
                     System.out.print("✏️Escribe el nuevo nombre: ");
-                    listaHoteles.get(indiceHotel).setName(entrada.nextLine());
+                    hotel.setName(entrada.nextLine());
                     break;
                 case 2:
                     System.out.printf("🏨Actualmente el hotel '%s' tiene nº%d  habitaciones\n",hotel.getName(), hotel.getAmountRooms() );
                     System.out.print("✏️Escribe el nuevo numero de habitaciones: ");
-                    listaHoteles.get(indiceHotel).setAmountRooms(entrada.nextInt());
+                    hotel.setAmountRooms(entrada.nextInt());
                     break;
                 case 3:
                     System.out.printf("🏨Actualmente el hotel '%s' tiene nº%d de plantas\n",hotel.getName(), hotel.getAmountFloors());
                     System.out.print("✏️Escribe el nuevo numero de plantas: ");
-                    listaHoteles.get(indiceHotel).setAmountFloors(entrada.nextInt());
+                    hotel.setAmountFloors(entrada.nextInt());
                     break;
                 case 4:
                     System.out.printf("🏨Actualmente el hotel '%s' tiene %.2f metros cuadrados\n",hotel.getName(), hotel.getTotalSurface());
                     System.out.print("✏️Escribe la nueva superficie: ");
-                    listaHoteles.get(indiceHotel).setTotalSurface(entrada.nextInt());
+                    hotel.setTotalSurface(entrada.nextInt());
                     break;
             }
             System.out.println("✅ Hotel modificado correctamente");
@@ -294,16 +298,6 @@ public class M8Ex2_MiquelDebon {
         return output;
     }
 
-
-    public static Hotel questionReturnHotel(){
-        Hotel  queriedHotel;
-        String queriedNameHotel = "";
-
-        System.out.print("✏️Escribe el NOMBRE del hotel: ");
-        queriedNameHotel = entrada.nextLine();
-        return  queriedHotel = new Hotel(queriedNameHotel);
-    }
-
     public static int findIndexHotel(String queriedNameHotel){
         Hotel hotel;
         boolean hotelFound = false;
@@ -322,8 +316,26 @@ public class M8Ex2_MiquelDebon {
     }
 
 
+    public static int leerInt() {
+        int numero = 0;
+        boolean correcto = false;
 
-    public static boolean existThisHotel(String nameHotel){
+        do {
+            try {
+                numero = entrada.nextInt();
+                correcto = true;
+            } catch (InputMismatchException ex) {
+                System.out.print(stringWriteAValidValue);
+            }
+            entrada.nextLine();
+        } while (!correcto);
+        return numero;
+    }
+
+
+    //OLD Methods
+    /*
+      public static boolean existThisHotel(String nameHotel){
         //No pot ser while xqe si no existeix es quedaria en loop infinit
         Hotel hotel;
         boolean hotelExist = false;
@@ -354,20 +366,6 @@ public class M8Ex2_MiquelDebon {
         return hotel;
     }
 
-    public static int leerInt() {
-        int numero = 0;
-        boolean correcto = false;
-
-        do {
-            try {
-                numero = entrada.nextInt();
-                correcto = true;
-            } catch (InputMismatchException ex) {
-                System.out.print(stringWriteAValidValue);
-            }
-            entrada.nextLine();
-        } while (!correcto);
-        return numero;
-    }
+     */
 
 }
