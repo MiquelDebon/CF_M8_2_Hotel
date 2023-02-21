@@ -104,23 +104,28 @@ public class M8Ex2_MiquelDebon {
 
     //Metodo 2
     static void Manteniment(){
-        String hotelQueried = "";
         Hotel hotel;
-        String output = "";
+        String queriedNameHotel = "";
+        String outputMantenimiento = "";
+        int index = -1;
+        boolean hotelExist = false;
 
         System.out.println("☑️Opcion 2: Calcular el mantenimiento");
 
         if(listaHoteles.size() != 0){
             System.out.println(stringHotelNamesList());
-            System.out.print("✏️ De que hotel quieres saber el mantenimiento? ");
-            hotelQueried = entrada.nextLine();
-            if(existThisHotel(hotelQueried)){
-                hotel = findHotel(hotelQueried);
-                output = hotel.calcularManteniment();
-                System.out.println(output);
-            }else{
-                System.out.println(stringAlertNoFoundHotel);
-            }
+
+            do{
+                System.out.print("✏️ De que hotel quieres saber el mantenimiento? ");
+                queriedNameHotel = entrada.nextLine();
+                index = findIndexHotel(queriedNameHotel);
+                hotelExist = (index != -1) ? true : false ;
+            }while(!hotelExist);
+
+            hotel = listaHoteles.get(index);
+            outputMantenimiento = hotel.calcularManteniment();
+            System.out.println(outputMantenimiento);
+
         }else{
             System.out.println(stringAlertaNoHotel);
         }
@@ -290,6 +295,34 @@ public class M8Ex2_MiquelDebon {
     }
 
 
+    public static Hotel questionReturnHotel(){
+        Hotel  queriedHotel;
+        String queriedNameHotel = "";
+
+        System.out.print("✏️Escribe el NOMBRE del hotel: ");
+        queriedNameHotel = entrada.nextLine();
+        return  queriedHotel = new Hotel(queriedNameHotel);
+    }
+
+    public static int findIndexHotel(String queriedNameHotel){
+        Hotel hotel;
+        boolean hotelFound = false;
+        int index = -1;
+        int i = 0;
+
+        while(!hotelFound && i < listaHoteles.size()){
+            hotel = listaHoteles.get(i);
+            hotelFound = (hotel.getName().equalsIgnoreCase(queriedNameHotel)) ? true :false;
+            if(hotelFound){
+                index = i;
+            }
+            i++;
+        }
+        return index;
+    }
+
+
+
     public static boolean existThisHotel(String nameHotel){
         //No pot ser while xqe si no existeix es quedaria en loop infinit
         Hotel hotel;
@@ -309,14 +342,14 @@ public class M8Ex2_MiquelDebon {
     public static Hotel findHotel(String nameHotel){
         //Es un metodo que sempre s'inicialitza després del exisThisHotel()
         //Ha de ser while xqe no sabem quan el trobara
-        Hotel hotel= new Hotel();
+        Hotel hotel = new Hotel();
         boolean hotelFound = false;
-
         int i = 0;
-        while(!hotelFound){
+
+        while(!hotelFound && i < listaHoteles.size()){
             hotel = listaHoteles.get(i);
-            i++;
             hotelFound = (hotel.getName().equalsIgnoreCase(nameHotel)) ? true : false;
+            i++;
         }
         return hotel;
     }
